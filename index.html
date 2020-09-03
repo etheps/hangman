@@ -33,21 +33,82 @@
     };
 
     var game = new Phaser.Game(config);
+    var inGame = false;
     var instruction;
-    var aPic
+    var checkPic;
+    var word = '';
+    var wordDisplay;
+    var guesses = '';
+    var numGuesses = 0;
 
     function preload ()
     {
+
+      //Load in image resources
+      this.load.image('background', 'assets/background.png');
       this.load.image('aPNG', 'assets/blueLetters/a.png');
+      this.load.image('bPNG', 'assets/blueLetters/b.png');
+      this.load.image('cPNG', 'assets/blueLetters/c.png');
+      this.load.image('dPNG', 'assets/blueLetters/d.png');
+      this.load.image('ePNG', 'assets/blueLetters/e.png');
+      this.load.image('fPNG', 'assets/blueLetters/f.png');
+      this.load.image('gPNG', 'assets/blueLetters/g.png');
+      this.load.image('hPNG', 'assets/blueLetters/h.png');
+      this.load.image('iPNG', 'assets/blueLetters/i.png');
+      this.load.image('jPNG', 'assets/blueLetters/j.png');
+      this.load.image('kPNG', 'assets/blueLetters/k.png');
+      this.load.image('lPNG', 'assets/blueLetters/l.png');
+      this.load.image('mPNG', 'assets/blueLetters/m.png');
+      this.load.image('nPNG', 'assets/blueLetters/n.png');
+      this.load.image('oPNG', 'assets/blueLetters/o.png');
+      this.load.image('pPNG', 'assets/blueLetters/p.png');
+      this.load.image('qPNG', 'assets/blueLetters/q.png');
+      this.load.image('rPNG', 'assets/blueLetters/r.png');
+      this.load.image('sPNG', 'assets/blueLetters/s.png');
+      this.load.image('tPNG', 'assets/blueLetters/t.png');
+      this.load.image('uPNG', 'assets/blueLetters/u.png');
+      this.load.image('vPNG', 'assets/blueLetters/v.png');
+      this.load.image('wPNG', 'assets/blueLetters/w.png');
+      this.load.image('xPNG', 'assets/blueLetters/x.png');
+      this.load.image('yPNG', 'assets/blueLetters/y.png');
+      this.load.image('zPNG', 'assets/blueLetters/z.png');
+      this.load.image('checkPNG', 'assets/blueLetters/check.png');
     }
 
     function create ()
     {
-      instruction = this.add.text(50, 50, 'Choose a word:', { fontSize: '32px', fill: '#FFFFFF' });
+      this.add.image(0,0,'background').setOrigin(0,0);
+      instruction = this.add.text(50, 50, 'Choose a word:', { fontSize: '48px', fill: '#FFFFFF' });
+      wordDisplay = this.add.text(50, 150, '', { fontSize: '48px', fill: '#FFFFFF' });
 
       // Place each letter on the game board
-      aPic = this.add.sprite(50, 450, 'aPNG').setInteractive().on('pointerdown', () => updateText('A'));
-
+      var aPic = this.add.sprite(80, 400, 'aPNG').setInteractive().on('pointerdown', () => updateText('A'));
+      var bPic = this.add.sprite(160, 400, 'bPNG').setInteractive().on('pointerdown', () => updateText('B'));
+      var cPic = this.add.sprite(240, 400, 'cPNG').setInteractive().on('pointerdown', () => updateText('C'));
+      var dPic = this.add.sprite(320, 400, 'dPNG').setInteractive().on('pointerdown', () => updateText('D'));
+      var ePic = this.add.sprite(400, 400, 'ePNG').setInteractive().on('pointerdown', () => updateText('E'));
+      var fPic = this.add.sprite(480, 400, 'fPNG').setInteractive().on('pointerdown', () => updateText('F'));
+      var gPic = this.add.sprite(560, 400, 'gPNG').setInteractive().on('pointerdown', () => updateText('G'));
+      var hPic = this.add.sprite(640, 400, 'hPNG').setInteractive().on('pointerdown', () => updateText('H'));
+      var iPic = this.add.sprite(720, 400, 'iPNG').setInteractive().on('pointerdown', () => updateText('I'));
+      var jPic = this.add.sprite(80, 475, 'jPNG').setInteractive().on('pointerdown', () => updateText('J'));
+      var kPic = this.add.sprite(160, 475, 'kPNG').setInteractive().on('pointerdown', () => updateText('K'));
+      var lPic = this.add.sprite(240, 475, 'lPNG').setInteractive().on('pointerdown', () => updateText('L'));
+      var mPic = this.add.sprite(320, 475, 'mPNG').setInteractive().on('pointerdown', () => updateText('M'));
+      var nPic = this.add.sprite(400, 475, 'nPNG').setInteractive().on('pointerdown', () => updateText('N'));
+      var oPic = this.add.sprite(480, 475, 'oPNG').setInteractive().on('pointerdown', () => updateText('O'));
+      var pPic = this.add.sprite(560, 475, 'pPNG').setInteractive().on('pointerdown', () => updateText('P'));
+      var qPic = this.add.sprite(640, 475, 'qPNG').setInteractive().on('pointerdown', () => updateText('Q'));
+      var rPic = this.add.sprite(720, 475, 'rPNG').setInteractive().on('pointerdown', () => updateText('R'));
+      var sPic = this.add.sprite(80, 550, 'sPNG').setInteractive().on('pointerdown', () => updateText('S'));
+      var tPic = this.add.sprite(160, 550, 'tPNG').setInteractive().on('pointerdown', () => updateText('T'));
+      var uPic = this.add.sprite(240, 550, 'uPNG').setInteractive().on('pointerdown', () => updateText('U'));
+      var vPic = this.add.sprite(320, 550, 'vPNG').setInteractive().on('pointerdown', () => updateText('V'));
+      var wPic = this.add.sprite(400, 550, 'wPNG').setInteractive().on('pointerdown', () => updateText('W'));
+      var xPic = this.add.sprite(480, 550, 'xPNG').setInteractive().on('pointerdown', () => updateText('X'));
+      var yPic = this.add.sprite(560, 550, 'yPNG').setInteractive().on('pointerdown', () => updateText('Y'));
+      var zPic = this.add.sprite(640, 550, 'zPNG').setInteractive().on('pointerdown', () => updateText('Z'));
+      checkPic = this.add.sprite(720, 550, 'checkPNG').setInteractive().on('pointerdown', () => checkClick());
     }
 
     function update ()
@@ -56,8 +117,41 @@
 
     function updateText (input)
     {
-      console.log("clicked");
-      instruction.setText(input);
+      if(inGame){
+        if(guesses.includes(input)){
+          instruction.setText('Cannot guess ' + input + ' again!');
+        }
+        else{
+          guesses += input;
+          numGuesses++;
+          instruction.setText('Guessed ' + input + '. ' + (6 - numGuesses) + ' guesses left.');
+          wordDisplay.setText(getWordDisplay());
+        }
+      }
+      else{
+        word += input;
+        wordDisplay.setText(word);
+      }
+    }
+
+    function checkClick(){
+      inGame = true;
+      wordDisplay.setText(getWordDisplay());
+      instruction.setText('Begin guessing!');
+      checkPic.destroy();
+    }
+
+    function getWordDisplay(){
+      var retString = '';
+      for(var i = 0; i < word.length; i++){
+        if(guesses.includes(word.charAt(i))){
+          retString += word.charAt(i);
+        }
+        else{
+          retString += '*';
+        }
+      }
+      return retString;
     }
 
 </script>
