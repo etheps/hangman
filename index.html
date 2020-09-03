@@ -39,12 +39,29 @@
     var word = '';
     var wordDisplay;
     var guesses = '';
-    var numGuesses = 0;
+    var wrongGuesses = 0;
+    var rightGuesses = 0;
+    var over = false;
+    var flo0;
+    var flo1;
+    var flo2;
+    var flo3;
+    var flo4;
+    var flo5;
+    var flo6;
 
     function preload ()
     {
+      // Load in flower
+      this.load.image('flo0', 'assets/flower/flo0.png');
+      this.load.image('flo1', 'assets/flower/flo1.png');
+      this.load.image('flo2', 'assets/flower/flo2.png');
+      this.load.image('flo3', 'assets/flower/flo3.png');
+      this.load.image('flo4', 'assets/flower/flo4.png');
+      this.load.image('flo5', 'assets/flower/flo5.png');
+      this.load.image('flo6', 'assets/flower/flo6.png');
 
-      //Load in image resources
+      //  Load in image resources
       this.load.image('background', 'assets/background.png');
       this.load.image('aPNG', 'assets/blueLetters/a.png');
       this.load.image('bPNG', 'assets/blueLetters/b.png');
@@ -109,6 +126,14 @@
       var yPic = this.add.sprite(560, 550, 'yPNG').setInteractive().on('pointerdown', () => updateText('Y'));
       var zPic = this.add.sprite(640, 550, 'zPNG').setInteractive().on('pointerdown', () => updateText('Z'));
       checkPic = this.add.sprite(720, 550, 'checkPNG').setInteractive().on('pointerdown', () => checkClick());
+
+      flo6 = this.add.sprite(657, 258, 'flo6');
+      flo5 = this.add.sprite(657, 258, 'flo5');
+      flo4 = this.add.sprite(657, 258, 'flo4');
+      flo3 = this.add.sprite(657, 258, 'flo3');
+      flo2 = this.add.sprite(657, 258, 'flo2');
+      flo1 = this.add.sprite(657, 258, 'flo1');
+      flo0 = this.add.sprite(657, 258, 'flo0');
     }
 
     function update ()
@@ -117,18 +142,43 @@
 
     function updateText (input)
     {
-      if(inGame){
+      if(inGame && !over){
         if(guesses.includes(input)){
           instruction.setText('Cannot guess ' + input + ' again!');
         }
         else{
           guesses += input;
-          numGuesses++;
-          instruction.setText('Guessed ' + input + '. ' + (6 - numGuesses) + ' guesses left.');
+
+          // Guesses are used by incorrect attempts
+          if(!word.includes(input)){
+            wrongGuesses++;
+            updateFlower();
+          }
+          else{
+            rightGuesses++;
+          }
           wordDisplay.setText(getWordDisplay());
+
+          // Check if word is complete, game is over, or can keep guessing
+          if(!getWordDisplay().includes('*')){
+            instruction.setText('Congrats! ' + (wrongGuesses + rightGuesses) + ' total guesses.');
+            over = true;
+          }
+          else if(wrongGuesses >= 6){
+            instruction.setText('Game Over!')
+            over = true;
+          }
+          else{
+            if(wrongGuesses < 5){
+              instruction.setText('Guessed ' + input + '. ' + (6 - wrongGuesses) + ' guesses left.');
+            }
+            else{
+              instruction.setText('Guessed ' + input + '. 1 guess left.');
+            }
+          }
         }
       }
-      else{
+      else if (!over){
         word += input;
         wordDisplay.setText(word);
       }
@@ -152,6 +202,21 @@
         }
       }
       return retString;
+    }
+
+    function updateFlower(){
+      if(wrongGuesses == 1)
+        flo0.destroy();
+      if(wrongGuesses == 2)
+        flo1.destroy();
+      if(wrongGuesses == 3)
+        flo2.destroy();
+      if(wrongGuesses == 4)
+        flo3.destroy();
+      if(wrongGuesses == 5)
+        flo4.destroy();
+      if(wrongGuesses == 6)
+        flo5.destroy();
     }
 
 </script>
