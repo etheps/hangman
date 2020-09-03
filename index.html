@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <title>Hangman</title>
-    <script src="//cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
+    <script src="phaser.js"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -33,18 +33,32 @@
     };
 
     var game = new Phaser.Game(config);
+    var instruction;
+    var aPic
 
     function preload ()
     {
+      this.load.image('aPNG', 'assets/blueLetters/a.png');
     }
 
     function create ()
     {
+      instruction = this.add.text(50, 50, 'Choose a word:', { fontSize: '32px', fill: '#FFFFFF' });
+
+      // Place each letter on the game board
+      aPic = this.add.sprite(50, 450, 'aPNG').setInteractive().on('pointerdown', () => updateText('A'));
+
     }
 
     function update ()
+    {
     }
 
+    function updateText (input)
+    {
+      console.log("clicked");
+      instruction.setText(input);
+    }
 
 </script>
 
